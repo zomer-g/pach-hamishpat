@@ -2,7 +2,7 @@
 
 A community-driven status reporting platform for Israel's court system (נט המשפט). Users can report system outages, view the current status, and read system announcements — all in real time.
 
-**Live:** [pach-hamishpat.onrender.com](https://pach-hamishpat.onrender.com)
+**Live:** [https://pah.org.il/](https://pah.org.il/)
 
 ## Features
 
