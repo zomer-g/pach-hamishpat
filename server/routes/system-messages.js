@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { queryAll, runSql, queryOne } from '../db.js';
+import { requireAdmin } from './auth.js';
 
 const router = Router();
 
@@ -38,7 +39,7 @@ router.get('/', (req, res) => {
   res.json(result);
 });
 
-router.post('/', (req, res) => {
+router.post('/', requireAdmin, (req, res) => {
   const { title, content, image_url, order_index } = req.body;
 
   const result = runSql(
@@ -57,7 +58,7 @@ router.post('/', (req, res) => {
   res.json({ ...row, is_archived: !!row.is_archived });
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', requireAdmin, (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 

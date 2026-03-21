@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { queryAll, runSql, queryOne } from '../db.js';
+import { requireAdmin } from './auth.js';
 
 const router = Router();
 
@@ -67,7 +68,7 @@ router.post('/', (req, res) => {
   res.json({ ...row, is_hidden: !!row.is_hidden, is_scheduled: !!row.is_scheduled });
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', requireAdmin, (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { queryAll, runSql, queryOne } from '../db.js';
+import { requireAdmin } from './auth.js';
 
 const router = Router();
 
@@ -40,7 +41,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { content, author_name, is_admin, is_hidden } = req.body;
+  const { content, author_name, is_hidden } = req.body;
 
   const result = runSql(
     `INSERT INTO report_comments (content, author_name, is_admin, is_hidden, created_date)
@@ -48,7 +49,7 @@ router.post('/', (req, res) => {
     [
       content,
       author_name || 'אנונימי',
-      is_admin ? 1 : 0,
+      req.isAdmin ? 1 : 0,
       is_hidden ? 1 : 0,
       new Date().toISOString()
     ]
@@ -58,7 +59,7 @@ router.post('/', (req, res) => {
   res.json({ ...row, is_hidden: !!row.is_hidden, is_admin: !!row.is_admin });
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', requireAdmin, (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 
