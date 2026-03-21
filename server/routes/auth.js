@@ -2,8 +2,18 @@ import { Router } from 'express';
 
 const router = Router();
 
+function getAdminPassword() {
+  const password = process.env.ADMIN_PASSWORD;
+  if (!password) {
+    console.warn('WARNING: ADMIN_PASSWORD not set. Admin login disabled.');
+    return null;
+  }
+  return password;
+}
+
 function getAdminToken() {
-  const password = process.env.ADMIN_PASSWORD || 'admin123';
+  const password = getAdminPassword();
+  if (!password) return null;
   return Buffer.from(password).toString('base64');
 }
 
@@ -20,9 +30,13 @@ export function optionalAuth(req, res, next) {
 
 router.post('/login', (req, res) => {
   const { password } = req.body;
-  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const adminPassword = getAdminPassword();
 
-  if (password === adminPassword) {
+  if (!adminPassword) {
+    return res.status(403).json({ error: 'Admin login not configured' });
+  }
+
+  if (password && password === adminPassword) {
     res.json({
       token: getAdminToken(),
       role: 'admin'

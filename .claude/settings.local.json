@@ -6,7 +6,10 @@
       "Bash(rm -rf node_modules package-lock.json)",
       "Bash(npm install:*)",
       "Bash(npm run:*)",
-      "Bash(timeout 5 node server/index.js)"
+      "Bash(timeout 5 node server/index.js)",
+      "Bash(gh repo:*)",
+      "Bash(render --help)",
+      "Bash(gh api:*)"
     ]
   }
 }
