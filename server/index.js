@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { getDb } from './db.js';
+import { seedIfEmpty } from './seed.js';
 import { optionalAuth } from './routes/auth.js';
 import authRouter from './routes/auth.js';
 import statusReportsRouter from './routes/status-reports.js';
@@ -52,8 +53,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
-// Initialize DB then start server
-getDb().then(() => {
+// Initialize DB, seed if empty, then start server
+getDb().then(async (db) => {
+  await seedIfEmpty(db);
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
