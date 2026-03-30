@@ -9,7 +9,14 @@
       "Bash(timeout 5 node server/index.js)",
       "Bash(gh repo:*)",
       "Bash(render --help)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(node migrate.js)",
+      "Bash(mkdir -p seed)",
+      "Bash(cp \"/c/Users/zomer/Downloads/StatusReport_export.csv\" seed/)",
+      "Bash(cp \"/c/Users/zomer/Downloads/SystemReport_export.csv\" seed/)",
+      "Bash(cp \"/c/Users/zomer/Downloads/ReportComment_export.csv\" seed/)",
+      "Bash(cp \"/c/Users/zomer/Downloads/SystemMessage_export.csv\" seed/)",
+      "WebSearch"
     ]
   }
 }
